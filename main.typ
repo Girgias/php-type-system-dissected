@@ -23,7 +23,7 @@
     title: [PHP's Type System Dissected],
     subtitle: [Understanding how PHP's type system works],
     author: [Gina P. Banyard],
-    date: "2025-04-17"/*datetime.today()*/,
+    date: "2025-09-19"/*datetime.today()*/,
     institution: [The PHP Foundation],
     //logo: emoji.school,
   ),
@@ -133,7 +133,7 @@ A singleton type is a concrete _subtype_ of a type.
 #member-list-element()[`true`][(PHP 8.2@banyard_php_2022-1)]
 
 #warning()[
-  It’s impossible to define a value type in user land.
+  It’s impossible to define a singleton type in user land.
   Create an enumeration instead.
 ]
 
@@ -168,6 +168,7 @@ A composite type is a type combining multiple atomic types.
 
 == Composite types: visualization
 
+// TODO Add callable closure
 #cetz.canvas({
   import cetz.draw: *
   //line((-1.5, 0), (1.5, 0))
@@ -572,16 +573,14 @@ class Collection<T> {
 
 Generics are hard to make fast at run-time with a good DX. @le_blanc_state_2024
 
-== Associated types
+== Abstract Generics
 
 ```
-interface I {
-  type T: string|int;
-  type V;
-  public function get(T $offset): V;
-  public function set(T $offset, V $value): void;
+interface I<K : string|int, V> {
+  public function get(K $offset): V;
+  public function set(K $offset, V $value): void;
 }
-class C implements I {
+class C implements I<string, User> {
   public function get(string $offset): User {/* ... */}
   public function set(string $offset, User $value): void { /* ... */ }
  }
@@ -622,6 +621,10 @@ Communicate what effects a function does
             float!throw<DivisionByZero> {}`
 - `function now(): DateTimeImmutable!time`
 
+== Dependent types
+
+// TODO: Concept of a range type
+// TODO: Use string[length: range<1..>] for non empty strings
 
 = PHP's `strict_types`
 
