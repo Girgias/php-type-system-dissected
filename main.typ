@@ -168,7 +168,7 @@ A composite type is a type combining multiple atomic types.
 
 == Composite types: visualization
 
-// TODO Add callable closure
+// TODO Add callable closure?
 #cetz.canvas({
   import cetz.draw: *
   //line((-1.5, 0), (1.5, 0))
@@ -287,7 +287,6 @@ typedef struct {
 
 #quote()[
   The Liskov Substitution Principle (*LSP*) is a particular definition of a subtyping relation, called strong behavioural subtyping.
-    //\cite{liskov_behavioral_1994}
 ]
 Formulated by Barbara Liskov and Jeannette Wing in 1994:
 
@@ -312,7 +311,11 @@ Formulated by Barbara Liskov and Jeannette Wing in 1994:
 #member-list-element("Pre-conditions")[cannot be strengthened in the subtype]
 #member-list-element("Post-conditions")[cannot be weakened in the subtype]
 #member-list-element("Invariants")[must be preserved in the subtype]
-#member-list-element("History Rule")[constraints must be preserved in the subtype]
+#member-list-element("History Rule")[_constraints_ must be preserved in the subtype]
+
+An _invariant_ is a predicate over *single* states $phi(x_psi)$
+
+A _constraint_ is a predicate over *pairs* of states $phi(x_rho, x_psi)$ 
 
 == LSP: Effects on signatures
 
@@ -623,8 +626,17 @@ Communicate what effects a function does
 
 == Dependent types
 
-// TODO: Concept of a range type
-// TODO: Use string[length: range<1..>] for non empty strings
+Dependent types are types whose definition also depend on a _value_.
+
+=== Examples
+
+$T :=$ `range<5..20>` would mean $T$ is an integer $i$ such that $5 <= i <= 20$.
+$S :=$ `range<5..^20>` would mean $S$ is an integer $j$ such that $5 <= j < 20$.
+$U :=$ `range<5^..>` would mean $U$ is an integer $k$ such that $5 < k$.
+
+A dependent string type `NonEmpty` $:=$ `string[length: range<1..>]` would be a string with at least one byte.
+
+A dependent string type `AsciiString` $:=$ `string[bytes: range<0, 127>]` would represent a string containing only byte values between 0 and 127.
 
 = PHP's `strict_types`
 
